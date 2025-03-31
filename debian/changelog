@@ -1,3 +1,10 @@
+librime (1.13.1+dfsg1-1deepin2) unstable; urgency=medium
+
+  * Revert t64.
+  * Add new plugin predict.
+
+ -- xiangzelong <xiangzelong@deepin.org>  Mon, 31 Mar 2025 11:29:25 +0800
+
 librime (1.13.1+dfsg1-1) unstable; urgency=medium
 
   * New upstream release.

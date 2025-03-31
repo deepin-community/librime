@@ -62,14 +62,8 @@ Architecture: any
 Section: libdevel
 Depends:
  librime1 (<< ${source:Upstream-Version}.0~),
- librime1 (>= ${source:Version}),
+ librime1(>= ${source:Version}),
  ${misc:Depends},
-Provides:
- librime1-dev,
-Conflicts:
- librime1-dev,
-Replaces:
- librime1-dev,
 Description: Rime Input Method Engine, the core library - development files
  RIME is the acronym of Rime Input Method Engine.
  .

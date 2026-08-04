@@ -47,7 +47,7 @@ Package: librime-bin
 Architecture: any
 Section: utils
 Depends:
- librime1t64 (= ${binary:Version}),
+ librime1 (= ${binary:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Recommends:
@@ -61,8 +61,7 @@ Package: librime-dev
 Architecture: any
 Section: libdevel
 Depends:
- librime1t64 (<< ${source:Upstream-Version}.0~),
- librime1t64 (>= ${source:Version}),
+ librime1,
  ${misc:Depends},
 Provides:
  librime1-dev,
@@ -118,10 +117,7 @@ Description: ${source:Synopsis} - octagram plugin
  This package provides octagram plugin for RIME. It provides extra functionality
  in grammar checking.
 
-Package: librime1t64
-Provides: ${t64:Provides}
-Replaces: librime1
-Breaks: librime1 (<< ${source:Version})
+Package: librime1
 Architecture: any
 Depends:
  ${misc:Depends},

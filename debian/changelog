@@ -1,9 +1,54 @@
-librime (1.13.1+dfsg1-1deepin2) unstable; urgency=medium
+librime (1.17.0+dfsg1-1) unstable; urgency=medium
 
-  * Revert t64.
-  * Add new plugin predict.
+  * New upstream release.
+  * debian/librime1t64.shlibs: Bump versions.
+  * debian/librime-plugin-octagram.lintian-overrides: Dropped, not needed.
 
- -- xiangzelong <xiangzelong@deepin.org>  Mon, 31 Mar 2025 11:29:25 +0800
+ -- Boyuan Yang <byang@debian.org>  Thu, 18 Jun 2026 15:51:54 -0400
+
+librime (1.16.1+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Boyuan Yang <byang@debian.org>  Wed, 21 Jan 2026 09:52:57 -0500
+
+librime (1.16.0+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/librime1t64.shlibs: Bump versions.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 13 Jan 2026 11:19:00 -0500
+
+librime (1.15.0+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/rules: Drop override to dh_fixperms, not needed anymore.
+  * debian/patches: Refresh patches.
+  * debian/librime1t64.shlibs: Bump versions.
+
+ -- Boyuan Yang <byang@debian.org>  Thu, 04 Dec 2025 14:55:33 -0500
+
+librime (1.14.0+dfsg1-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Boyuan Yang <byang@debian.org>  Sun, 28 Sep 2025 19:39:12 -0400
+
+librime (1.14.0+dfsg1-2~exp1) experimental; urgency=medium
+
+  * Test build against libmarisa 0.3+.
+
+ -- Boyuan Yang <byang@debian.org>  Wed, 24 Sep 2025 13:33:12 -0400
+
+librime (1.14.0+dfsg1-1) unstable; urgency=medium
+
+  * New upstream version 1.14.0+dfsg1
+  * debian/rules: Update component rev versions.
+  * debian/librime1t64.shlibs: Bumped versions.
+  * debian/: Solve lintian warnings.
+  * debian/control: Move package description to source package section.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 16 Sep 2025 15:58:11 -0400
 
 librime (1.13.1+dfsg1-1) unstable; urgency=medium
 

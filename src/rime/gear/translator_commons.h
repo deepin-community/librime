@@ -167,6 +167,7 @@ class TranslatorOptions {
   void set_initial_quality(double quality) { initial_quality_ = quality; }
   Projection& preedit_formatter() { return preedit_formatter_; }
   Projection& comment_formatter() { return comment_formatter_; }
+  const hash_set<string>& blacklist() { return blacklist_; }
 
  protected:
   string delimiters_;
@@ -175,9 +176,12 @@ class TranslatorOptions {
   bool enable_completion_ = true;
   bool strict_spelling_ = false;
   double initial_quality_ = 0.;
+  int max_sentences_ = 1;
+  double sentence_cutoff_threshold_ = 0.1;
   Projection preedit_formatter_;
   Projection comment_formatter_;
   Patterns user_dict_disabling_patterns_;
+  hash_set<string> blacklist_;
 };
 
 }  // namespace rime

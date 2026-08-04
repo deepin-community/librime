@@ -1,6 +1,5 @@
 Source: librime
 Section: libs
-Priority: optional
 Maintainer: Debian Input Method Team <debian-input-method@lists.debian.org>
 Uploaders:
  Qijiang Fan <fqj1994@gmail.com>,
@@ -11,7 +10,7 @@ Uploaders:
  Boyuan Yang <byang@debian.org>,
 Build-Depends: dpkg-dev (>= 1.22.5),
  capnproto,
- cmake (>= 3.10),
+ cmake (>= 3.12),
  darts,
  debhelper-compat (= 13),
  googletest <!nocheck>,
@@ -22,29 +21,19 @@ Build-Depends: dpkg-dev (>= 1.22.5),
  libgoogle-glog-dev,
  libleveldb-dev,
  liblua5.4-dev,
- libmarisa-dev,
- libopencc-dev (>= 1.1.9~),
+ libmarisa-dev (>> 0.3),
+ libopencc-dev (>= 1.1.9+ds1-3~),
  libutfcpp-dev (>= 3.2.4),
  libxcb-keysyms1-dev,
  libyaml-cpp-dev (>= 0.6.3-7~),
  pkgconf,
  x11proto-core-dev,
  zlib1g-dev,
-Rules-Requires-Root: no
-Standards-Version: 4.7.0
+Standards-Version: 4.7.3
 Homepage: https://github.com/rime/librime
 Vcs-Git: https://salsa.debian.org/input-method-team/librime.git
 Vcs-Browser: https://salsa.debian.org/input-method-team/librime
-
-Package: librime-bin
-Architecture: any
-Depends:
- librime1 (= ${binary:Version}),
- ${misc:Depends},
- ${shlibs:Depends},
-Recommends:
- librime-data (>= 0.38),
-Description: Rime Input Method Engine - utilities
+Description: Rime Input Method Engine
  RIME is the acronym of Rime Input Method Engine.
  .
  RIME is a lightweight, extensible input method engine supporting various input
@@ -53,15 +42,27 @@ Description: Rime Input Method Engine - utilities
  and sentences intelligently and provide very accurate traditional Chinese
  output. RIME's cross-platform core library is written in C++, and can work
  consistently on different platforms with OS-specific wrappers.
+
+Package: librime-bin
+Architecture: any
+Section: utils
+Depends:
+ librime1t64 (= ${binary:Version}),
+ ${misc:Depends},
+ ${shlibs:Depends},
+Recommends:
+ librime-data (>= 0.38),
+Description: ${source:Synopsis} - utilities
+ ${source:Extended-Description}
  .
  This package provides the executable utilities of RIME.
-Section: utils
 
 Package: librime-dev
 Architecture: any
 Section: libdevel
 Depends:
- librime1
+ librime1t64 (<< ${source:Upstream-Version}.0~),
+ librime1t64 (>= ${source:Version}),
  ${misc:Depends},
 Provides:
  librime1-dev,
@@ -69,15 +70,8 @@ Conflicts:
  librime1-dev,
 Replaces:
  librime1-dev,
-Description: Rime Input Method Engine, the core library - development files
- RIME is the acronym of Rime Input Method Engine.
- .
- RIME is a lightweight, extensible input method engine supporting various input
- schematas including glyph-based input methods, romanization-based input methods
- as well as those for Chinese dialects. It has the ability to compose phrases
- and sentences intelligently and provide very accurate traditional Chinese
- output. RIME's cross-platform core library is written in C++, and can work
- consistently on different platforms with OS-specific wrappers.
+Description: ${source:Synopsis}, the core library - development files
+ ${source:Extended-Description}
  .
  This package provides the development files of RIME.
 
@@ -88,15 +82,8 @@ Depends:
  ${shlibs:Depends},
 Multi-Arch: same
 Homepage: https://github.com/rime/librime-charcode
-Description: Rime Input Method Engine - charcode plugin
- RIME is the acronym of Rime Input Method Engine.
- .
- RIME is a lightweight, extensible input method engine supporting various input
- schematas including glyph-based input methods, romanization-based input methods
- as well as those for Chinese dialects. It has the ability to compose phrases
- and sentences intelligently and provide very accurate traditional Chinese
- output. RIME's cross-platform core library is written in C++, and can work
- consistently on different platforms with OS-specific wrappers.
+Description: ${source:Synopsis} - charcode plugin
+ ${source:Extended-Description}
  .
  This package provides charcode plugin for RIME. It can be used for codepoint
  translation and charset filtering.
@@ -108,17 +95,10 @@ Depends:
  ${shlibs:Depends},
 Multi-Arch: same
 Homepage: https://github.com/hchunhui/librime-lua
-Description: Rime Input Method Engine - Lua extension plugin
- RIME is the acronym of Rime Input Method Engine.
+Description: ${source:Synopsis} - Lua extension plugin
+ ${source:Extended-Description}
  .
- RIME is a lightweight, extensible input method engine supporting various input
- schematas including glyph-based input methods, romanization-based input methods
- as well as those for Chinese dialects. It has the ability to compose phrases
- and sentences intelligently and provide very accurate traditional Chinese
- output. RIME's cross-platform core library is written in C++, and can work
- consistently on different platforms with OS-specific wrappers.
- .
- This package provides lua extension plugin for RIME with the following
+ This package provides Lua extension plugin for RIME with the following
  features:
  .
    * Supports extending RIME processors, segmentors, translators and filters
@@ -132,39 +112,16 @@ Depends:
  ${shlibs:Depends},
 Multi-Arch: same
 Homepage: https://github.com/lotem/librime-octagram
-Description: Rime Input Method Engine - octagram plugin
- RIME is the acronym of Rime Input Method Engine.
- .
- RIME is a lightweight, extensible input method engine supporting various input
- schematas including glyph-based input methods, romanization-based input methods
- as well as those for Chinese dialects. It has the ability to compose phrases
- and sentences intelligently and provide very accurate traditional Chinese
- output. RIME's cross-platform core library is written in C++, and can work
- consistently on different platforms with OS-specific wrappers.
+Description: ${source:Synopsis} - octagram plugin
+ ${source:Extended-Description}
  .
  This package provides octagram plugin for RIME. It provides extra functionality
  in grammar checking.
 
-Package: librime-plugin-predict
-Architecture: any
-Depends:
- ${misc:Depends},
- ${shlibs:Depends},
-Multi-Arch: same
-Homepage: https://github.com/rime/librime-predict
-Description: Rime Input Method Engine - predict plugin
- RIME is the acronym of Rime Input Method Engine.
- .
- RIME is a lightweight, extensible input method engine supporting various input
- schematas including glyph-based input methods, romanization-based input methods
- as well as those for Chinese dialects. It has the ability to compose phrases
- and sentences intelligently and provide very accurate traditional Chinese
- output. RIME's cross-platform core library is written in C++, and can work
- consistently on different platforms with OS-specific wrappers.
- This package provides predict plugin for RIME. It provides extra functionality
- in predicting the next input.
-
-Package: librime1
+Package: librime1t64
+Provides: ${t64:Provides}
+Replaces: librime1
+Breaks: librime1 (<< ${source:Version})
 Architecture: any
 Depends:
  ${misc:Depends},
@@ -176,14 +133,7 @@ Recommends:
  librime-plugin-charcode,
  librime-plugin-lua,
  librime-plugin-octagram,
-Description: Rime Input Method Engine - core library
- RIME is the acronym of Rime Input Method Engine.
- .
- RIME is a lightweight, extensible input method engine supporting various input
- schematas including glyph-based input methods, romanization-based input methods
- as well as those for Chinese dialects. It has the ability to compose phrases
- and sentences intelligently and provide very accurate traditional Chinese
- output. RIME's cross-platform core library is written in C++, and can work
- consistently on different platforms with OS-specific wrappers.
+Description: ${source:Synopsis} - core library
+ ${source:Extended-Description}
  .
  This package provides the core library of RIME.

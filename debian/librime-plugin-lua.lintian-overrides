@@ -1,2 +1,1 @@
-# shared libraries are plugins
-librime-plugin-lua: shared-library-is-executable
+wrong-section-according-to-package-name libs => interpreters

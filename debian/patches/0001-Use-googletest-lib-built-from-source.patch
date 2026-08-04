@@ -8,10 +8,10 @@ Forwarded: not-needed
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 3ec4398..2f55f95 100644
+index 3c170ad..94594fa 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -98,10 +98,24 @@ if(NOT ENABLE_THREADING)
+@@ -113,10 +113,24 @@ if(NOT ENABLE_TIMESTAMP)
  endif()
  
  if(BUILD_TEST)

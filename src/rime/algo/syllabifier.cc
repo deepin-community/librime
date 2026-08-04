@@ -5,6 +5,7 @@
 // 2011-07-12 Zou Xu <zouivex@gmail.com>
 // 2012-02-11 GONG Chen <chen.sst@gmail.com>
 //
+#include <algorithm>
 #include <queue>
 #include <boost/range/adaptor/reversed.hpp>
 #include <rime/algo/syllabifier.h>
@@ -19,7 +20,11 @@ using Vertex = pair<size_t, SpellingType>;
 using VertexQueue =
     std::priority_queue<Vertex, vector<Vertex>, std::greater<Vertex>>;
 
-const double kCompletionPenalty = -0.6931471805599453;     // log(0.5)
+// 權重階梯：
+// 1. 全拼：用戶完整輸入了所有編碼。Penalty = 0
+// 2. 簡拼：用戶輸入了縮寫，明確希望匹配某個字。Penalty ≈ -2.3
+// 3. 補全 (Completion)：用戶還沒打完，算法瞎猜的。Penalty ≈ -3.0
+const double kCompletionPenalty = -2.995732273553991;      // log(0.05)
 const double kCorrectionCredibility = -4.605170185988091;  // log(0.01)
 
 int Syllabifier::BuildSyllableGraph(const string& input,
@@ -48,12 +53,19 @@ int Syllabifier::BuildSyllableGraph(const string& input,
 
     if (current_pos > farthest)
       farthest = current_pos;
-    DLOG(INFO) << "current_pos: " << current_pos;
+
+    // consume leading delimiters
+    size_t begin_pos = current_pos;
+    while (begin_pos < input.length() &&
+           delimiters_.find(input[begin_pos]) != string::npos)
+      ++begin_pos;
+    DLOG(INFO) << "current_pos: " << current_pos
+               << ", begin_pos: " << begin_pos;
 
     // see where we can go by advancing a syllable
     vector<Prism::Match> matches;
     set<SyllableId> exact_match_syllables;
-    auto current_input = input.substr(current_pos);
+    auto current_input = input.substr(begin_pos);
     prism.CommonPrefixSearch(current_input, &matches);
     if (corrector_) {
       for (auto& m : matches) {
@@ -64,7 +76,8 @@ int Syllabifier::BuildSyllableGraph(const string& input,
       for (const auto& m : corrections) {
         for (auto accessor = prism.QuerySpelling(m.first);
              !accessor.exhausted(); accessor.Next()) {
-          if (accessor.properties().type == kNormalSpelling) {
+          auto props = accessor.properties();
+          if (props.type == kNormalSpelling && !props.is_correction) {
             matches.push_back({m.first, m.second.length});
             break;
           }
@@ -72,12 +85,13 @@ int Syllabifier::BuildSyllableGraph(const string& input,
       }
     }
 
+    size_t leading_gap = begin_pos - current_pos;
     if (!matches.empty()) {
       auto& end_vertices(graph->edges[current_pos]);
       for (const auto& m : matches) {
         if (m.length == 0)
           continue;
-        size_t end_pos = current_pos + m.length;
+        size_t end_pos = current_pos + leading_gap + m.length;
         // consume trailing delimiters
         while (end_pos < input.length() &&
                delimiters_.find(input[end_pos]) != string::npos)
@@ -243,8 +257,6 @@ int Syllabifier::BuildSyllableGraph(const string& input,
 void Syllabifier::CheckOverlappedSpellings(SyllableGraph* graph,
                                            size_t start,
                                            size_t end) {
-  const double kPenaltyForAmbiguousSyllable =
-      -23.025850929940457;  // log(1e-10)
   if (!graph || graph->edges.find(start) == graph->edges.end())
     return;
   // if "Z" = "YX", mark the vertex between Y and X an ambiguous syllable joint
@@ -265,7 +277,8 @@ void Syllabifier::CheckOverlappedSpellings(SyllableGraph* graph,
         // discourage syllables at an ambiguous joint
         // bad cases include pinyin syllabification "niju'ede"
         for (auto& spelling : x.second) {
-          spelling.second.credibility += kPenaltyForAmbiguousSyllable;
+          // 這條邊（X）相對於起點構成歧義
+          spelling.second.ambiguous_source_positions.insert(start);
         }
         graph->vertices[joint] = kAmbiguousSpelling;
         DLOG(INFO) << "ambiguous syllable joint at position " << joint << ".";

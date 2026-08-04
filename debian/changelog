@@ -1,3 +1,9 @@
+librime (1.17.0+dfsg1-1deepin1) unstable; urgency=medium
+
+  * Revert t64.
+
+ -- lichenggang <lichenggang@uniontech.com>  Tue, 04 Aug 2026 10:28:04 +0800
+
 librime (1.17.0+dfsg1-1) unstable; urgency=medium
 
   * New upstream release.
